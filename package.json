@@ -4,8 +4,8 @@
   "description": "Telegram bot for Tembusu College",
   "main": "start.js",
   "scripts": {
-    "test": "mocha --require babel-register -R nyan",
-    "testy":"istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -r babel-register -R nyan && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "testy": "mocha --require babel-register -R nyan",
+    "test":"istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -r babel-register -R nyan && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "start": "node start.js"
   },
   "repository": "https://github.com/SoraSkyy/tembu-telegram-bot.git",
