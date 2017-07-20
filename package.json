@@ -4,6 +4,7 @@
   "description": "Telegram bot for Tembusu College",
   "main": "start.js",
   "scripts": {
+    "test": "mocha --require babel-register --reporter nyan",
     "start": "node start.js"
   },
   "repository": "https://github.com/SoraSkyy/tembu-telegram-bot.git",
@@ -15,6 +16,8 @@
     "node-telegram-bot-api": "^0.27.1"
   },
   "devDependencies": {
-    "eslint": "^4.2.0"
+    "chai": "^4.1.0",
+    "eslint": "^4.2.0",
+    "mocha": "^3.4.2"
   }
 }
