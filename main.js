@@ -1,8 +1,8 @@
 import TelegramBot from 'node-telegram-bot-api';
-import StateManager from './statemanager';
+import StateManager from './stateManager';
 import { credentials } from './config';
 
-const bot = new TelegramBot(credentials.token, { polling: true, });
+const bot = new TelegramBot(credentials.token, { polling: true });
 
 const stateManagers = {};
 

@@ -1,4 +1,4 @@
-import StateManager from '../statemanager';
+import StateManager from '../stateManager';
 import chai from 'chai';
 const should = chai.should();
 
@@ -16,6 +16,9 @@ describe('StateManager', () => {
   it('should have id be not undefined', () => {
     stateManager.id.should.not.be.a('null');
     stateManager.id.should.not.be.an('undefined');
+  });
+  it('should have the id same as the original input', () => {
+    stateManager.id.should.equal('1234');
   });
 
 
