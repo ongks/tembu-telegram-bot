@@ -14,7 +14,12 @@ bot.on('message', (msg, calback) => {
   const response = stateManagers[msg.chat.id].process(msg);
   if (!response.respond) return 0;
   return response.messages.forEach((message) => {
-    bot.sendMessage(response.chatID, message.text, message.options || {});
+    if (message.type === 'text') {
+      bot.sendMessage(response.chatID, message.text, message.options || {});
+    } else if (message.type === 'document') {
+      bot.sendDocument(response.chatID, message.document);
+    }
+    
   });
 });
 

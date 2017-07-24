@@ -1,4 +1,5 @@
 import State from '../state';
+import { formIDs } from '../../config';
 
 export default class InterestGroupState extends State {
   constructor() {
@@ -29,9 +30,10 @@ export default class InterestGroupState extends State {
     return {
       respond: true,
       messages: [
-        State.makeButtonMessage('Unimplemented.', this.makeButtons()),
+        State.makeButtonMessage('Unimplemented. Here is a sample document.', this.makeButtons()),
         {
-          text: 'Unimplemented second text.'
+          type: 'document',
+          document: formIDs.ig_creation_form
         }
       ]
     };

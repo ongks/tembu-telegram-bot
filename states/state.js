@@ -15,7 +15,8 @@ export default class State {
 
   static makeButtonMessage(text, buttons) {
     return {
-      text: text,
+      type: 'text',
+      text,
       options: {
         reply_markup: {
           keyboard: buttons,
