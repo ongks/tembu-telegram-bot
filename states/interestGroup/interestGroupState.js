@@ -6,8 +6,8 @@ export default class InterestGroupState extends State {
     super();
     this.nextActions = {
       'IG Creation Form': this.sendCreationForm.bind(this),
-      'IG Calendar': [],
-      'IG List': []
+      'IG Calendar': this.sendCalendar.bind(this),
+      'IG List': this.sendIgList.bind(this)
     };
   }
 
@@ -35,6 +35,24 @@ export default class InterestGroupState extends State {
           type: 'document',
           document: formIDs.ig_creation_form
         }
+      ]
+    };
+  }
+
+  sendCalendar() {
+    return {
+      respond: true,
+      messages: [
+        State.makeButtonMessage('Unimplemented.', this.makeButtons())
+      ]
+    };
+  }
+
+  sendIgList() {
+    return {
+      respond: true,
+      messages: [
+        State.makeButtonMessage('Unimplemented.', this.makeButtons())
       ]
     };
   }
