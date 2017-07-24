@@ -25,19 +25,23 @@ export default class RootState {
     });
     return {
       respond: true,
-      text: 'Choose an option.',
-      options: {
-        reply_markup: {
-          keyboard: mappedButtons,
-          one_time_keyboard: true
+      messages: [
+        {
+          text: 'Choose an option.',
+          options: {
+            reply_markup: {
+              keyboard: mappedButtons,
+              one_time_keyboard: true
+            }
+          }
         }
-      }
+      ]
     };
   }
 
   process(msg) {
-    const selectedIndex = Object.keys(this.nextStates).indexOf(msg.text);
-    if (selectedIndex === -1) {
+    const selectedOption = Object.keys(this.nextStates).indexOf(msg.text);
+    if (selectedOption === -1) {
       return this.render();
     }
     

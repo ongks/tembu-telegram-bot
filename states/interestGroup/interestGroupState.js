@@ -15,17 +15,23 @@ export default class InterestGroupState {
     });
     return {
       respond: true,
-      text: 'Choose an option.',
-      options: {
-        reply_markup: {
-          keyboard: mappedButtons,
-          one_time_keyboard: true
+      messages: [
+        {
+          text: 'Choose an option.',
+          options: {
+            reply_markup: {
+              keyboard: mappedButtons,
+              one_time_keyboard: true
+            }
+          }
         }
-      }
+      ]
     };
   }
 
   process(msg) {
-    
+    const selectedOption = Object.keys(this.nextActions).indexOf(msg.text);
+    if (selectedOption === -1) return this.render();
+    return (this.nextActions[msg.text])();
   }
 };

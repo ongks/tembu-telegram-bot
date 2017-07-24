@@ -10,12 +10,14 @@ bot.on('message', (msg, calback) => {
   if (!stateManagers[msg.chat.id]) {
     stateManagers[msg.chat.id] = new StateManager(msg.chat.id);
   }
-  const response = stateManagers[msg.chat.id].process(msg);
-  if (response.respond) {
-    bot.sendMessage(response.chatID, response.text, response.options || {});
-  }
   console.log(msg);
+  const response = stateManagers[msg.chat.id].process(msg);
+  if (!response.respond) return 0;
+  return response.messages.forEach((message) => {
+    bot.sendMessage(response.chatID, message.text, message.options || {});
+  });
 });
+
 
 
 
