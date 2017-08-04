@@ -3,6 +3,8 @@ import RootState from './states/rootState';
 
 export default class StateManager {
   constructor(id) {
+    // Only tracks these two params for now, but as the bot's complexity increases
+    // it will need to track more variables.
     this.id = id;
     this.state = [];
   }
@@ -14,6 +16,7 @@ export default class StateManager {
       return this.addIDParam(this.state[0].render());
     }
 
+    // Catch the 'Back' message and pop the state.
     if (msg.text === 'Back' && this.state.length > 1) {
       this.state = this.state.splice(1);
       return this.addIDParam(this.state[0].render());
@@ -32,6 +35,11 @@ export default class StateManager {
     return { respond: false };
   }
 
+  /*
+    This method is always called before returning messages back to the caller,
+    because it needs to know which chatID to send the message back to (in this case,
+    most likely the user who invoked the commands).
+  */
   addIDParam(data) {
     data.chatID = this.id;
     return data;
