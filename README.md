@@ -57,7 +57,7 @@ export default class State {
 
 Notice that all states inherit this class, and will call the `render()` method when it wants to display the navigation menu.
 
-In order for `render()` to work properly, the `makeButtons()` method must be implemented. The actual implementation will differ depending on the nature of the state, but in general it has to return a list of lists of strings. See the telegram API for more information. An example implementation of `makeButtons()` is found in _rootState.js_.
+In order for `render()` to work properly, the `makeButtons()` method must be implemented. The actual implementation will differ depending on the nature of the state, but in general it has to return a list of lists of strings. See the [Telegram API](https://core.telegram.org/bots/api) for more information. An example implementation of `makeButtons()` is found in _rootState.js_.
 
 ```javascript
 makeButtons() {
@@ -104,7 +104,7 @@ process(msg) {
 }
 ```
 
-How you wish to implement the processing is up to you, as long as you return an object with the required parameters back to the `StateManager`. If the state wants to return messages to the user, then it needs a `respond: true` parameter, followed by a list of messages like `messages: []`. Each `message` object inside the list of `messages: []` should follow the telegram API. An example of the generation of a `TextMessage` object with the `reply_markup` parameter can be found in the `makeButtonMessage(text, buttons)` method in _state.js_:
+How you wish to implement the processing is up to you, as long as you return an object with the required parameters back to the `StateManager`. If the state wants to return messages to the user, then it needs a `respond: true` parameter, followed by a list of messages like `messages: []`. Each `message` object inside the list of `messages: []` should follow the [Telegram API](https://core.telegram.org/bots/api). An example of the generation of a `TextMessage` object with the `reply_markup` parameter can be found in the `makeButtonMessage(text, buttons)` method in _state.js_:
 
 ```javascript
 return {
@@ -128,4 +128,4 @@ if (processedData.transition) {
 }
 ```
 
-This should be all you need to get started. For a much more detailed understanding on how each component in the bot works, do take a look at the actual source code. The functionality of messages is also limited by the Telegram Bot API, so do consult the docs there too! 
+This should be all you need to get started. For a much more detailed understanding on how each component in the bot works, do take a look at the actual source code. The functionality of messages is also limited by the [Telegram API](https://core.telegram.org/bots/api), so do consult the docs there too! 
