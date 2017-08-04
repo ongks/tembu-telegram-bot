@@ -3,7 +3,7 @@ export default class GeneralFeedbackState {
     // TODO
   }
 
-  render() {
+  makeButtons() {
     // TODO
   }
 

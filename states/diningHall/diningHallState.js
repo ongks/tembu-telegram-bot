@@ -3,7 +3,7 @@ export default class DiningHallState {
     // TODO
   }
 
-  render() {
+  makeButtons() {
     // TODO
   }
 

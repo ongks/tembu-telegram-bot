@@ -3,7 +3,7 @@ export default class ResidentialLifeState {
     // TODO
   }
 
-  render() {
+  makeButtons() {
     // TODO
   }
 

@@ -3,7 +3,7 @@ export default class SupperState {
     // TODO
   }
 
-  render() {
+  makeButtons() {
     // TODO
   }
 

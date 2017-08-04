@@ -3,8 +3,8 @@ export default class CscState {
     // TODO
   }
 
-  render() {
-    //
+  makeButtons() {
+    // TODO
   }
 
   process(msg) {
