@@ -7,7 +7,7 @@ export default class GeneralFeedbackState {
     // TODO
   }
 
-  procuss(msg) {
+  process(msg) {
     // TODO
   }
 };
