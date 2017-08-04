@@ -119,7 +119,7 @@ return {
 };
 ```
 
-Should the state wish to transition into its a new `State` (NOT previous), it should return an object with the `transition: [StateObject]` parameter. The `StateObject` represents a newly initialized object that inherits `State`, which will be pushed to the stack that is tracked in `StateManager`. It will then call the `render()` function of the next `StateObject`.
+Should the state wish to transition into a new `State` (NOT previous), it should return an object with the `transition: [StateObject]` parameter. The `StateObject` represents a newly initialized object that inherits `State`, which will be pushed to the stack that is tracked in `StateManager`. It will then call the `render()` function of the next `StateObject`.
 
 ```javascript
 if (processedData.transition) {
