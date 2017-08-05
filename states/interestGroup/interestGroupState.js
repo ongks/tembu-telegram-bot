@@ -55,4 +55,4 @@ export default class InterestGroupState extends State {
       ],
     };
   }
-};
+}
