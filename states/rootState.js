@@ -9,20 +9,21 @@ import GeneralFeedbackState from './generalFeedback/generalFeedbackState';
 export default class RootState extends State {
   constructor() {
     super();
+
+    // Lazy evaluation of new states.
     this.nextStates = {
-      'Interest Groups': new InterestGroupState(),
-      'Dining Hall': new DiningHallState(),
-      Supper: new SupperState(),
-      'CSC matters': new CscState(),
-      'Residential Life': new ResidentialLifeState(),
-      'General Feedback': new GeneralFeedbackState(),
+      'Interest Groups': () => new InterestGroupState(),
+      'Dining Hall': () => new DiningHallState(),
+      'Supper': () => new SupperState(),
+      'CSC matters': () => new CscState(),
+      'Residential Life': () => new ResidentialLifeState(),
+      'General Feedback': () => new GeneralFeedbackState(),
     };
   }
 
   makeButtons() {
-    const mappedButtons = Object.keys(this.nextStates)
+    return Object.keys(this.nextStates)
       .map(commandString => [commandString]);
-    return mappedButtons;
   }
 
   process(msg) {
@@ -32,6 +33,6 @@ export default class RootState extends State {
     }
 
     // A valid option was selected. Transition to next.
-    return { transition: this.nextStates[msg.text] };
+    return { transition: (this.nextStates[msg.text])() };
   }
 }

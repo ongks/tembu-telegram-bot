@@ -14,9 +14,8 @@ export default class InterestGroupState extends State {
   makeButtons() {
     const nextCommands = Object.keys(this.nextActions);
     nextCommands.push('Back');
-    const mappedButtons = nextCommands
+    return nextCommands
       .map(commandString => [commandString]);
-    return mappedButtons;
   }
 
   process(msg) {
