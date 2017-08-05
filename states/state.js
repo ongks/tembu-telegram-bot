@@ -4,12 +4,14 @@ export default class State {
     return {
       respond: true,
       messages: [
-        State.makeButtonMessage('Choose an option.', buttons)
-      ]
+        State.makeButtonMessage('Choose an option.', buttons),
+      ],
     };
   }
-  
+
   makeButtons() {
+    // This method will only be called when the object that inherits this class
+    // does not implement the method. Hence throwing error here.
     throw 'Unimplemented error: State.makeButtons().';
   }
 
@@ -20,9 +22,9 @@ export default class State {
       options: {
         reply_markup: {
           keyboard: buttons,
-          one_time_keyboard: true
-        }
-      }
+          one_time_keyboard: true,
+        },
+      },
     };
   }
 }

@@ -7,16 +7,15 @@ export default class InterestGroupState extends State {
     this.nextActions = {
       'IG Creation Form': this.sendCreationForm.bind(this),
       'IG Calendar': this.sendCalendar.bind(this),
-      'IG List': this.sendIgList.bind(this)
+      'IG List': this.sendIgList.bind(this),
     };
   }
 
   makeButtons() {
     const nextCommands = Object.keys(this.nextActions);
     nextCommands.push('Back');
-    const mappedButtons = nextCommands.map((commandString) => {
-      return [commandString];
-    });
+    const mappedButtons = nextCommands
+      .map(commandString => [commandString]);
     return mappedButtons;
   }
 
@@ -33,9 +32,9 @@ export default class InterestGroupState extends State {
         State.makeButtonMessage('Unimplemented. Here is a sample document.', this.makeButtons()),
         {
           type: 'document',
-          document: formIDs.ig_creation_form
-        }
-      ]
+          document: formIDs.ig_creation_form,
+        },
+      ],
     };
   }
 
@@ -43,8 +42,8 @@ export default class InterestGroupState extends State {
     return {
       respond: true,
       messages: [
-        State.makeButtonMessage('Unimplemented.', this.makeButtons())
-      ]
+        State.makeButtonMessage('Unimplemented.', this.makeButtons()),
+      ],
     };
   }
 
@@ -52,8 +51,8 @@ export default class InterestGroupState extends State {
     return {
       respond: true,
       messages: [
-        State.makeButtonMessage('Unimplemented.', this.makeButtons())
-      ]
+        State.makeButtonMessage('Unimplemented.', this.makeButtons()),
+      ],
     };
   }
 };

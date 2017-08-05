@@ -12,17 +12,16 @@ export default class RootState extends State {
     this.nextStates = {
       'Interest Groups': new InterestGroupState(),
       'Dining Hall': new DiningHallState(),
-      'Supper': new SupperState(),
+      Supper: new SupperState(),
       'CSC matters': new CscState(),
       'Residential Life': new ResidentialLifeState(),
-      'General Feedback': new GeneralFeedbackState()
+      'General Feedback': new GeneralFeedbackState(),
     };
   }
 
   makeButtons() {
-    const mappedButtons = Object.keys(this.nextStates).map((commandString) => {
-      return [commandString];
-    });
+    const mappedButtons = Object.keys(this.nextStates)
+      .map(commandString => [commandString]);
     return mappedButtons;
   }
 
@@ -31,9 +30,8 @@ export default class RootState extends State {
     if (selectedOption === -1) {
       return this.render();
     }
-    
+
     // A valid option was selected. Transition to next.
     return { transition: this.nextStates[msg.text] };
   }
-
 }
