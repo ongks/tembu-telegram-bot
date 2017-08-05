@@ -28,7 +28,7 @@ export default class InterestGroupState extends State {
     return {
       respond: true,
       messages: [
-        State.makeButtonMessage('Unimplemented. Here is a sample document.', this.makeButtons()),
+        State.makeButtonMessage('Here is the IG creation form.', this.makeButtons()),
         {
           type: 'document',
           document: formIDs.ig_creation_form,
