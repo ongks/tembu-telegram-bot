@@ -5,7 +5,7 @@
   "main": "start.js",
   "scripts": {
     "testy": "mocha --require babel-register -R nyan",
-    "test":"istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -r babel-register -R nyan && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -r babel-register -R nyan && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "start": "node start.js"
   },
   "repository": "https://github.com/SoraSkyy/tembu-telegram-bot.git",
@@ -20,6 +20,8 @@
     "chai": "^4.1.0",
     "coveralls": "^2.13.1",
     "eslint": "^4.2.0",
+    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint-plugin-import": "^2.7.0",
     "istanbul": "^1.0.0-alpha",
     "mocha": "^3.4.2",
     "mocha-lcov-reporter": "^1.3.0"
