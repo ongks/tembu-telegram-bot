@@ -32,7 +32,12 @@ export default class RegisterState extends State {
 
   process(msg) {
     const selectedOption = Object.keys(this.nextActions).indexOf(msg.text);
-    if (selectedOption === -1) return this.render();
-    return (this.nextActions[msg.text])();
+    if (selectedOption === -1) {
+      return this.render();
+    } else if (selectedOption === 0) {
+      return (this.nextActions[msg.text])();
+    } else {
+      return { transition: (this.nextActions[msg.text])() };
+    }
   }
 };

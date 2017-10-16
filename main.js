@@ -12,9 +12,11 @@ bot.on('message', (msg, calback) => {
   if (!stateManagers[msg.chat.id]) {
     stateManagers[msg.chat.id] = new StateManager(msg.chat.id, dataInstance);
   }
-  console.log(msg);
+  // console.log(msg);
   const response = stateManagers[msg.chat.id].process(msg);
   if (!response.respond) return 0;
+  console.log(response.messages);
+
   return response.messages.forEach((message) => {
     if (message.type === 'text') {
       bot.sendMessage(response.chatID, message.text, message.options || {});
