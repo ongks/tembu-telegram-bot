@@ -1,15 +1,15 @@
 {
-  "name": "tembu-telegram-bot",
+  "name": "thalloween-queue-bot",
   "version": "0.0.1",
-  "description": "Telegram bot for Tembusu College",
+  "description": "Telegram Bot for THalloween Queue System",
   "main": "start.js",
   "scripts": {
     "testy": "mocha --require babel-register -R nyan",
     "test": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -r babel-register -R nyan && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "start": "node start.js"
   },
-  "repository": "https://github.com/SoraSkyy/tembu-telegram-bot.git",
-  "author": "SoraSkyy <viorama@gmail.com>",
+  "repository": "https://github.com/ongks/thalloween-queue-bot",
+  "author": "Ong Ka-Shing <ongkashing@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "babel-preset-es2015": "^6.24.1",
@@ -24,6 +24,8 @@
     "eslint-plugin-import": "^2.7.0",
     "istanbul": "^1.0.0-alpha",
     "mocha": "^3.4.2",
-    "mocha-lcov-reporter": "^1.3.0"
+    "mocha-lcov-reporter": "^1.3.0",
+    "crypto": "^1.0.1",
+    "jsonfile": "^4.0.0"
   }
 }
