@@ -7,6 +7,9 @@ config.js
 # Modules installed
 /node_modules
 
+# Data files
+data.json
+
 # -*- mode: gitignore; -*-
 *~
 \#*\#
