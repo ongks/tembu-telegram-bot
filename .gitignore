@@ -1,6 +1,12 @@
 # Protect config file
 config.js
 
+# WebStorm stuff
+/.idea
+
+# Modules installed
+/node_modules
+
 # -*- mode: gitignore; -*-
 *~
 \#*\#
