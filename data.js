@@ -1,23 +1,25 @@
 /**
  * JSON Data structure:
- * {Queue counter: 20,
- * Password dict:{key: TELEGRAM_UID, value: array with PASS as well as position in queue}.
- * Entry status dict: {key: PASS, value: (hasBeenUsed :: -1, 0, 1})
+ * {Queue: [Pass1, Pass2, ...],
+ * ID to Password:{key: TELEGRAM_UID, value: Password}.
+ * Password to ID: {key: PASS, value: [boolean for entered, ID 1, ID 2])
  * }
- * -1 for entered, 0 for 1 registered person, 1 for 2 registered people
  */
 export default class Data {
   constructor() {
     this.jsonfile = require('jsonfile');
     this.filepath = './data.json';
 
-    this.jsonfile.readFile(this.filepath, (err, data) => {
-      if (err) throw err;
-      // let jsonData = JSON.parse(data);
-      console.log(data);
-      this.queueCounter = data['Queue counter'];
-      this.passwordDict = data['Password dict'];
-      this.entryStatusDict = data['Entry status dict'];
+    this.currentJob = new Promise((resolve, reject) => {
+      this.jsonfile.readFile(this.filepath, (err, data) => {
+        if (err) throw err;
+        // let jsonData = JSON.parse(data);
+        // console.log(data);
+        this.queue = data['Queue'];
+        this.idToPassword = data['ID to Password'];
+        this.passwordToId = data['Password to ID'];
+      });
+      resolve();
     });
   }
 
@@ -28,7 +30,7 @@ export default class Data {
    * @return pw
    */
   addToQueue(id, pw) {
-    if (this.passwordDict.hasOwnProperty(id.toString())) {
+    if (this.idToPassword.hasOwnProperty(id.toString())) {
       return {
         respond: true,
         messages: [
@@ -40,8 +42,7 @@ export default class Data {
       };
     }
 
-    // check if anyone tries to fake a password
-    if (pw.length > 0 && !this.entryStatusDict.hasOwnProperty(pw)) {
+    if (pw.length > 0 && !this.passwordToId.hasOwnProperty(pw)) {
       return {
         respond: true,
         messages: [
@@ -53,7 +54,7 @@ export default class Data {
       };
     }
 
-    if (this.entryStatusDict[pw] === 1) {
+    if (pw.length > 0 && this.passwordToId[pw].length === 3) {
       return {
         respond: true,
         messages: [
@@ -65,7 +66,7 @@ export default class Data {
       };
     }
 
-    if (this.entryStatusDict[pw] === -1) {
+    if (pw.length > 0 && this.passwordToId[pw][0] === 1) {
       return {
         respond: true,
         messages: [
@@ -88,26 +89,30 @@ export default class Data {
       pw = randomValueHex(8);
     }
 
-    console.log('I CAME IN HERE.')
-    this.passwordDict[id.toString()] = pw;
+    // edit queue and tables
+    this.queue.unshift(pw);
+    this.idToPassword[id] = pw;
 
-    if (!this.entryStatusDict.hasOwnProperty(pw)) {
-      this.entryStatusDict[pw] = 0;
+    if (!this.passwordToId.hasOwnProperty(pw)) {
+      this.passwordToId[pw] = [0, id];
     } else {
-      this.entryStatusDict[pw] = 1;
+      this.passwordToId[pw].push(id);
     }
 
     // update data
     let data = {
-      'Queue counter': this.queueCounter,
-      'Password dict': this.passwordDict,
-      'Entry status dict': this.entryStatusDict
+      "Queue": this.queue,
+      "ID to Password": this.idToPassword,
+      "Password to ID": this.passwordToId
     };
 
-    this.jsonfile.writeFile(this.filepath, data, {spaces: 2}, (err) => {
-      if (err) throw err;
-      console.log('Data updated.');
+    this.currentJob.then(() => {
+      this.jsonfile.writeFile(this.filepath, data, {spaces: 2}, (err) => {
+        if (err) throw err;
+        console.log('Data updated.');
+      });
     });
+
 
     return {
       respond: true,
@@ -125,16 +130,62 @@ export default class Data {
    * TODO: NEED WAY TO UPDATE COUNTER
    * @param id
    */
-  deleteFromQueue (id) {
+  deleteFromQueue(id) {
+    const pw = this.idToPassword[id];
+    const idx = this.queue.indexOf(pw);
+    this.queue.splice(idx, 1);
 
+    const memberOneId = this.passwordToId[pw][1];
+    delete this.idToPassword[memberOneId];
+    if (this.passwordToId[pw].length === 3) {
+      const memberTwoId = this.passwordToId[pw][2];
+      delete this.idToPassword[memberTwoId];
+    }
+    delete this.passwordToId[pw];
+
+    // update data
+    let data = {
+      "Queue": this.queue,
+      "ID to Password": this.idToPassword,
+      "Password to ID": this.passwordToId
+    };
+
+    this.currentJob.then(() => {
+      this.jsonfile.writeFile(this.filepath, data, {spaces: 2}, (err) => {
+        if (err) throw err;
+        console.log('Data updated.');
+      });
+    });
+
+    return {
+      respond: true,
+      messages: [
+        {
+          type: 'text',
+          text: 'You and your partner are no longer in the queue.'
+        }
+      ]
+    };
   }
 
   /**
-   * check array's position in queue, then subtract current counter to give current position in queue, multiply by 5 to give approx ETA
+   * check array's position in queue, then multiply by 5 to give approx ETA
    * @param id
    */
-  queryQueue (id) {
+  queryQueue(id) {
+    const pw = this.idToPassword[id];
+    const idx = this.queue.length - this.queue.indexOf(pw);
+    const msg = 'Your queue position is ' + idx + '. Your turn will be in approximately ' + idx * 5 + 'mins.';
 
+    return {
+      respond: true,
+      messages: [
+        {
+          type: 'text',
+          text: msg
+        }
+      ]
+    };
   }
 
 }
