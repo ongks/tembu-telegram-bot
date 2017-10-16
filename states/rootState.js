@@ -1,12 +1,14 @@
 import State from './state';
+import RegisterState from './registerState'
 
 export default class RootState extends State {
-  constructor() {
+  constructor(id, dataInstance) {
     super();
-
-    // Lazy evaluation of new states.
+    this.dataInstance = dataInstance;
     this.nextStates = {
-
+      'Register': () => new RegisterState(id, dataInstance),
+      'Cancel Registation': () => new DeregisterState(id, dataInstance),
+      'Check Queue': () => dataInstance.queryQueue()
     };
   }
 
