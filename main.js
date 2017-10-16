@@ -1,14 +1,16 @@
 import TelegramBot from 'node-telegram-bot-api';
 import StateManager from './stateManager';
 import { credentials } from './config';
+import Data from './data'
 
 const bot = new TelegramBot(credentials.token, { polling: true });
 
 const stateManagers = {};
+const dataInstance = new Data();
 
 bot.on('message', (msg, calback) => {
   if (!stateManagers[msg.chat.id]) {
-    stateManagers[msg.chat.id] = new StateManager(msg.chat.id);
+    stateManagers[msg.chat.id] = new StateManager(msg.chat.id, dataInstance);
   }
   console.log(msg);
   const response = stateManagers[msg.chat.id].process(msg);
