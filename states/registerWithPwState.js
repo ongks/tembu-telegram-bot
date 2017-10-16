@@ -5,28 +5,18 @@ export default class RegisterWithPwState extends State {
     super();
     this.id = id;
     this.dataInstance = dataInstance;
-    this.nextActions = {
-
-    };
   }
 
   render() {
-    const buttons = this.makeButtons();
     return {
       respond: true,
       messages: [
-        State.makeButtonMessage('Please enter your given password.', buttons)
+        {
+          type: 'text',
+          text: 'Please enter your given password.'
+        }
       ]
     };
-  }
-
-  makeButtons(){
-    const nextCommands = Object.keys(this.nextActions);
-    nextCommands.push('Back');
-    const mappedButtons = nextCommands.map((commandString) => {
-      return [commandString];
-    });
-    return mappedButtons;
   }
 
   process(msg) {
