@@ -1,10 +1,4 @@
 import State from './state';
-import InterestGroupState from './interestGroup/interestGroupState';
-import DiningHallState from './diningHall/diningHallState';
-import SupperState from './supper/supperState';
-import CscState from './csc/cscState';
-import ResidentialLifeState from './residentialLife/residentialLifeState';
-import GeneralFeedbackState from './generalFeedback/generalFeedbackState';
 
 export default class RootState extends State {
   constructor() {
@@ -12,12 +6,7 @@ export default class RootState extends State {
 
     // Lazy evaluation of new states.
     this.nextStates = {
-      'Interest Groups': () => new InterestGroupState(),
-      'Dining Hall': () => new DiningHallState(),
-      'Supper': () => new SupperState(),
-      'CSC matters': () => new CscState(),
-      'Residential Life': () => new ResidentialLifeState(),
-      'General Feedback': () => new GeneralFeedbackState(),
+
     };
   }
 
