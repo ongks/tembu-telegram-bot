@@ -8,7 +8,7 @@ const bot = new TelegramBot(credentials.token, { polling: true });
 const stateManagers = {};
 const dataInstance = new Data();
 
-bot.on('message', (msg, calback) => {
+bot.on('message', (msg, callback) => {
   if (!stateManagers[msg.chat.id]) {
     stateManagers[msg.chat.id] = new StateManager(msg.chat.id, dataInstance);
   }

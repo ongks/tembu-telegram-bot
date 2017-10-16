@@ -1,5 +1,6 @@
 import State from './state';
 import RegisterState from './registerState'
+import DeregisterState from './deregisterState'
 
 export default class RootState extends State {
   constructor(id, dataInstance) {
@@ -7,8 +8,8 @@ export default class RootState extends State {
     this.dataInstance = dataInstance;
     this.nextStates = {
       'Register': () => new RegisterState(id, dataInstance),
-      'Cancel Registation': () => new DeregisterState(id, dataInstance),
-      'Check Queue': () => dataInstance.queryQueue()
+      'Cancel Registration': () => new DeregisterState(id, dataInstance),
+      'Check Queue': () => dataInstance.queryQueue(id)
     };
   }
 
@@ -21,9 +22,10 @@ export default class RootState extends State {
     const selectedOption = Object.keys(this.nextStates).indexOf(msg.text);
     if (selectedOption === -1) {
       return this.render();
+    } else if (selectedOption === 2) {
+      return (this.nextStates[msg.text])();
+    } else {
+      return { transition: (this.nextStates[msg.text])() };
     }
-
-    // A valid option was selected. Transition to next.
-    return { transition: (this.nextStates[msg.text])() };
   }
 }
