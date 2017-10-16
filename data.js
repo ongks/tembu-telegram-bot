@@ -24,10 +24,9 @@ export default class Data {
   }
 
   /**
-   * Adds a new entry in the idPwDict
+   * Adds a new entry in the queue, idToPassword and passwordToDict tables.
    * @param id unique telegram id
    * @param pw if registering as 2nd person, otherwise empty string for 1st person
-   * @return pw
    */
   addToQueue(id, pw) {
     if (this.idToPassword.hasOwnProperty(id.toString())) {
@@ -99,7 +98,7 @@ export default class Data {
       this.passwordToId[pw].push(id);
     }
 
-    // update data
+    // write back to data.json file
     let data = {
       "Queue": this.queue,
       "ID to Password": this.idToPassword,
@@ -126,8 +125,9 @@ export default class Data {
   }
 
   /**
-   * Deletes given id, and checks for other id with same pw, then delete that id as well.
-   * TODO: NEED WAY TO UPDATE COUNTER
+   * Deletes associated pw from queue.
+   * Deletes given id, and checks for other id with same pw, then delete that id as well from idToPassword table.
+   * Deletes associated array from passwordToId table.
    * @param id
    */
   deleteFromQueue(id) {
@@ -143,7 +143,7 @@ export default class Data {
     }
     delete this.passwordToId[pw];
 
-    // update data
+    // write back to data.json file
     let data = {
       "Queue": this.queue,
       "ID to Password": this.idToPassword,
@@ -169,7 +169,7 @@ export default class Data {
   }
 
   /**
-   * check array's position in queue, then multiply by 5 to give approx ETA
+   * Check position of pw from the back (backmost is 1st), then multiply by 5 to give approx ETA
    * @param id
    */
   queryQueue(id) {
