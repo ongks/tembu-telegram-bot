@@ -133,6 +133,18 @@ export default class Data {
   deleteFromQueue(id) {
     const pw = this.idToPassword[id];
     const idx = this.queue.indexOf(pw);
+
+    if (idx === -1) {
+      return {
+        respond: true,
+        messages: [
+          {
+            type: 'text',
+            text: 'You are not in the queue.'
+          }
+        ]
+      };
+    }
     this.queue.splice(idx, 1);
 
     const memberOneId = this.passwordToId[pw][1];
@@ -175,7 +187,7 @@ export default class Data {
   queryQueue(id) {
     const pw = this.idToPassword[id];
     const idx = this.queue.length - this.queue.indexOf(pw);
-    const msg = 'Your queue position is ' + idx + '. Your turn will be in approximately ' + idx * 5 + 'mins.';
+    const msg = 'Your queue position is ' + idx + '. Your turn will be in approximately ' + idx * 5 + ' mins.';
 
     return {
       respond: true,
@@ -188,4 +200,47 @@ export default class Data {
     };
   }
 
+  /**
+   * Advances queue forward by 1 position, marks array[0] as 1 in pwToId table
+   */
+  popQueue() {
+    if (this.queue.length === 0) {
+      return {
+        respond: true,
+        messages: [
+          {
+            type: 'text',
+            text: 'Queue is empty!'
+          }
+        ]
+      };
+    }
+
+    const pw = this.queue.pop();
+    this.passwordToId[pw][0] = 1;
+
+    // write back to data.json file
+    let data = {
+      "Queue": this.queue,
+      "ID to Password": this.idToPassword,
+      "Password to ID": this.passwordToId
+    };
+
+    this.currentJob.then(() => {
+      this.jsonfile.writeFile(this.filepath, data, {spaces: 2}, (err) => {
+        if (err) throw err;
+        console.log('Data updated.');
+      });
+    });
+
+    return {
+      respond: true,
+      messages: [
+        {
+          type: 'text',
+          text: 'Confirmed entrance for current group.'
+        }
+      ]
+    };
+  }
 }
