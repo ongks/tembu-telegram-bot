@@ -1,8 +1,9 @@
 import RootState from './states/rootState';
-
+import AdminRootState from './states/adminRootState';
 
 export default class StateManager {
   constructor(id, dataInstance) {
+    this.adminIdList = [143885245];
     this.id = id;
     this.dataInstance = dataInstance;
     this.state = [];
@@ -11,7 +12,11 @@ export default class StateManager {
   process(msg) {
     // Regardless of state, if typed start, jump back to root.
     if (msg.text === '/start' || this.state.length === 0) {
-      this.state = [new RootState(this.id, this.dataInstance)];
+      if (this.adminIdList.includes(this.id)) {
+        this.state = [new AdminRootState(this.id, this.dataInstance)];
+      } else {
+        this.state = [new RootState(this.id, this.dataInstance)];
+      }
       return this.addIDParam(this.state[0].render());
     }
 
