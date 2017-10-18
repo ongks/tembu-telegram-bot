@@ -212,6 +212,56 @@ export default class Data {
    * @param numberToDisplay
    */
   printQueue(numberToDisplay) {
+    if (!Number.isInteger(numberToDisplay)) {
+      return {
+        respond: true,
+        messages: [
+          {
+            type: 'text',
+            text: 'Please enter a valid integer!'
+          }
+        ]
+      };
+    }
+
+    if (numberToDisplay > this.queue.length) {
+      return {
+        respond: true,
+        messages: [
+          {
+            type: 'text',
+            text: 'There aren\'t that many pairs in the queue!'
+          }
+        ]
+      };
+    }
+
+    const arr = this.queue.slice(this.queue.length - numberToDisplay);
+    let msg = 'Current queue:\n';
+    let position = 0;
+    while (arr.length > 0) {
+      position += 1;
+      let currPw = arr.pop();
+      let id1 = this.passwordToId[currPw][1];
+      let user1 = this.idToUsername[id1];
+      let id2 = this.passwordToId[currPw][2];
+      let user2 = this.idToUsername[id2];
+      if (user2) {
+        msg += position + '. ' + user1 + ' & ' + user2 + '\n';
+      } else {
+        msg += position + '. ' + user1 + '\n';
+      }
+    }
+
+    return {
+      respond: true,
+      messages: [
+        {
+          type: 'text',
+          text: msg
+        }
+      ]
+    };
   }
 
   /**

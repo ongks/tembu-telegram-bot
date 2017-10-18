@@ -1,6 +1,7 @@
 import State from './state';
-import RegisterState from './registerState'
-import DeregisterState from './deregisterState'
+import PrintState from './printState';
+// import RegisterState from './registerState'
+// import DeregisterState from './deregisterState'
 
 export default class AdminRootState extends State {
   constructor(id, dataInstance) {
@@ -9,7 +10,8 @@ export default class AdminRootState extends State {
     this.nextStates = {
       // 'Register': () => new RegisterState(id, dataInstance),
       // 'Cancel Registration': () => new DeregisterState(id, dataInstance),
-      'Pop Queue': () => dataInstance.popQueue()
+      'Pop Queue': () => dataInstance.popQueue(),
+      'Print Queue': () => new PrintState(dataInstance)
     };
   }
 
@@ -22,11 +24,10 @@ export default class AdminRootState extends State {
     const selectedOption = Object.keys(this.nextStates).indexOf(msg.text);
     if (selectedOption === -1) {
       return this.render();
+    } else if (selectedOption === 0) {
+      return (this.nextStates[msg.text])();
+    } else {
+      return { transition: (this.nextStates[msg.text])() };
     }
-    // } else if (selectedOption === 2) {
-    return (this.nextStates[msg.text])();
-    // } else {
-    //   return { transition: (this.nextStates[msg.text])() };
-    // }
   }
 }
