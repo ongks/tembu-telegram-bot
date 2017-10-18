@@ -1,5 +1,6 @@
 import State from './state';
 import PrintState from './printState';
+import JumpState from './jumpState';
 // import RegisterState from './registerState'
 // import DeregisterState from './deregisterState'
 
@@ -11,7 +12,8 @@ export default class AdminRootState extends State {
       // 'Register': () => new RegisterState(id, dataInstance),
       // 'Cancel Registration': () => new DeregisterState(id, dataInstance),
       'Pop Queue': () => dataInstance.popQueue(),
-      'Print Queue': () => new PrintState(dataInstance)
+      'Print Queue': () => new PrintState(dataInstance),
+      'Jump Queue': () => new JumpState(dataInstance),
     };
   }
 
