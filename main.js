@@ -9,10 +9,18 @@ const stateManagers = {};
 const dataInstance = new Data();
 
 bot.on('message', (msg, callback) => {
-  if (!stateManagers[msg.chat.id]) {
-    stateManagers[msg.chat.id] = new StateManager(msg.chat.id, dataInstance);
+  // Username is not a compulsory field, in which case use the first name if user does not have one
+  let username = '';
+  if (msg.chat.username.length > 0) {
+    username = msg.chat.username;
+  } else {
+    username = msg.chat.first_name;
   }
-  // console.log(msg);
+
+  if (!stateManagers[msg.chat.id]) {
+    stateManagers[msg.chat.id] = new StateManager(msg.chat.id, username, dataInstance);
+  }
+  console.log(msg);
   const response = stateManagers[msg.chat.id].process(msg);
   if (!response.respond) return 0;
   console.log(response.messages);
@@ -26,21 +34,3 @@ bot.on('message', (msg, callback) => {
     
   });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

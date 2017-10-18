@@ -3,11 +3,10 @@ import RegisterState from './registerState'
 import DeregisterState from './deregisterState'
 
 export default class RootState extends State {
-  constructor(id, dataInstance) {
+  constructor(id, username, dataInstance) {
     super();
-    this.dataInstance = dataInstance;
     this.nextStates = {
-      'Register': () => new RegisterState(id, dataInstance),
+      'Register': () => new RegisterState(id, username, dataInstance),
       'Cancel Registration': () => new DeregisterState(id, dataInstance),
       'Check Queue': () => dataInstance.queryQueue(id)
     };

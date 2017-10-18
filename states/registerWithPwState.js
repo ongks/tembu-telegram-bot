@@ -1,9 +1,10 @@
 import State from './state';
 
 export default class RegisterWithPwState extends State {
-  constructor(id, dataInstance) {
+  constructor(id, username, dataInstance) {
     super();
     this.id = id;
+    this.username = username;
     this.dataInstance = dataInstance;
   }
 
@@ -21,6 +22,6 @@ export default class RegisterWithPwState extends State {
 
   process(msg) {
     // const selectedOption = Object.keys(this.nextActions).indexOf(msg.text);
-    return this.dataInstance.addToQueue(this.id, msg.text);
+    return this.dataInstance.addToQueue(this.id, this.username, msg.text);
   }
-};
+}

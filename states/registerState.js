@@ -2,12 +2,12 @@ import State from './state';
 import RegisterWithPwState from './registerWithPwState';
 
 export default class RegisterState extends State {
-  constructor(id, dataInstance) {
+  constructor(id, username, dataInstance) {
     super();
     this.dataInstance = dataInstance;
     this.nextActions = {
-      'Yes': () => dataInstance.addToQueue(id, ''),
-      'No': () => new RegisterWithPwState(id, dataInstance)
+      'Yes': () => dataInstance.addToQueue(id, username, ''),
+      'No': () => new RegisterWithPwState(id, username, dataInstance)
     };
   }
 

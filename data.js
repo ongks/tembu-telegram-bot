@@ -18,6 +18,7 @@ export default class Data {
         this.queue = data['Queue'];
         this.idToPassword = data['ID to Password'];
         this.passwordToId = data['Password to ID'];
+        this.idToUsername = data['ID to Username'];
       });
       resolve();
     });
@@ -28,7 +29,7 @@ export default class Data {
    * @param id unique telegram id
    * @param pw if registering as 2nd person, otherwise empty string for 1st person
    */
-  addToQueue(id, pw) {
+  addToQueue(id, username, pw) {
     if (this.idToPassword.hasOwnProperty(id.toString())) {
       return {
         respond: true,
@@ -91,6 +92,7 @@ export default class Data {
     // edit queue and tables
     this.queue.unshift(pw);
     this.idToPassword[id] = pw;
+    this.idToUsername[id] = username;
 
     if (!this.passwordToId.hasOwnProperty(pw)) {
       this.passwordToId[pw] = [0, id];
@@ -98,11 +100,13 @@ export default class Data {
       this.passwordToId[pw].push(id);
     }
 
+
     // write back to data.json file
     let data = {
       "Queue": this.queue,
       "ID to Password": this.idToPassword,
-      "Password to ID": this.passwordToId
+      "Password to ID": this.passwordToId,
+      "ID to Username": this.idToUsername
     };
 
     this.currentJob.then(() => {
@@ -149,9 +153,11 @@ export default class Data {
 
     const memberOneId = this.passwordToId[pw][1];
     delete this.idToPassword[memberOneId];
+    delete this.idToUsername[memberOneId];
     if (this.passwordToId[pw].length === 3) {
       const memberTwoId = this.passwordToId[pw][2];
       delete this.idToPassword[memberTwoId];
+      delete this.idToUsername[memberTwoId];
     }
     delete this.passwordToId[pw];
 
@@ -159,7 +165,8 @@ export default class Data {
     let data = {
       "Queue": this.queue,
       "ID to Password": this.idToPassword,
-      "Password to ID": this.passwordToId
+      "Password to ID": this.passwordToId,
+      "ID to Username": this.idToUsername
     };
 
     this.currentJob.then(() => {
@@ -201,7 +208,14 @@ export default class Data {
   }
 
   /**
-   * Advances queue forward by 1 position, marks array[0] as 1 in pwToId table
+   * Admin function for checking next few pairs in the queue, also to confirm identities
+   * @param numberToDisplay
+   */
+  printQueue(numberToDisplay) {
+  }
+
+  /**
+   * Admin function: Advances queue forward by 1 position, marks array[0] as 1 in pwToId table
    */
   popQueue() {
     if (this.queue.length === 0) {
@@ -223,7 +237,8 @@ export default class Data {
     let data = {
       "Queue": this.queue,
       "ID to Password": this.idToPassword,
-      "Password to ID": this.passwordToId
+      "Password to ID": this.passwordToId,
+      "ID to Username": this.idToUsername
     };
 
     this.currentJob.then(() => {
@@ -243,4 +258,13 @@ export default class Data {
       ]
     };
   }
+
+  /**
+   * Admin function to move the position-th pair forward, in case when current first pair is not here yet
+   * @param position of the pair to be brought forward
+   */
+  jumpQueue(position) {
+
+  }
+
 }

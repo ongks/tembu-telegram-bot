@@ -2,9 +2,10 @@ import RootState from './states/rootState';
 import AdminRootState from './states/adminRootState';
 
 export default class StateManager {
-  constructor(id, dataInstance) {
+  constructor(id, username, dataInstance) {
     this.adminIdList = [143885245];
     this.id = id;
+    this.username = username;
     this.dataInstance = dataInstance;
     this.state = [];
   }
@@ -15,7 +16,7 @@ export default class StateManager {
       if (this.adminIdList.includes(this.id)) {
         this.state = [new AdminRootState(this.id, this.dataInstance)];
       } else {
-        this.state = [new RootState(this.id, this.dataInstance)];
+        this.state = [new RootState(this.id, this.username, this.dataInstance)];
       }
       return this.addIDParam(this.state[0].render());
     }
