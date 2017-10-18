@@ -314,7 +314,57 @@ export default class Data {
    * @param position of the pair to be brought forward
    */
   jumpQueue(position) {
+    if (!Number.isInteger(position)) {
+      return {
+        respond: true,
+        messages: [
+          {
+            type: 'text',
+            text: 'Please enter a valid integer!'
+          }
+        ]
+      };
+    }
 
+    if (position > this.queue.length) {
+      return {
+        respond: true,
+        messages: [
+          {
+            type: 'text',
+            text: 'There aren\'t that many pairs in the queue!'
+          }
+        ]
+      };
+    }
+
+    // remove from queue, then mark as entered
+    const currPw = this.queue.splice(this.queue.length - position, 1)[0];
+    this.passwordToId[currPw][0] = 1;
+
+    // write back to data.json file
+    let data = {
+      "Queue": this.queue,
+      "ID to Password": this.idToPassword,
+      "Password to ID": this.passwordToId,
+      "ID to Username": this.idToUsername
+    };
+
+    this.currentJob.then(() => {
+      this.jsonfile.writeFile(this.filepath, data, {spaces: 2}, (err) => {
+        if (err) throw err;
+        console.log('Data updated.');
+      });
+    });
+
+    return {
+      respond: true,
+      messages: [
+        {
+          type: 'text',
+          text: 'Confirmed entrance for specified group.'
+        }
+      ]
+    };
   }
-
 }
